@@ -24,36 +24,25 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-# MY_APPS = ['apps.arts_app',
-#            'apps.comments',
-#            'apps.message',
-#            'apps.statistic',
-#            ]
-# EXT_APPS = [#必须要导入的这两个xadmin模块
-#             'extra_apps.xadmin',
-#             'crispy_forms',
-#             #扩展包
-#             'reversion',
-# ]
-# SYS_APPS = ['django.contrib.admin',
-#             'django.contrib.auth',
-#             'django.contrib.contenttypes',
-#             'django.contrib.sessions',
-#             'django.contrib.messages',
-#             'django.contrib.staticfiles',
-# ]
-#
-# INSTALLED_APPS = SYS_APPS + EXT_APPS + MY_APPS
-
-
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+MY_APPS = ['apps.df_user',
+           ]
+EXT_APPS = [#必须要导入的这两个xadmin模块
+            'extra_apps.xadmin',
+            'crispy_forms',
+            #扩展包
+            'reversion',
 ]
+SYS_APPS = ['django.contrib.admin',
+            'django.contrib.auth',
+            'django.contrib.contenttypes',
+            'django.contrib.sessions',
+            'django.contrib.messages',
+            'django.contrib.staticfiles',
+]
+
+INSTALLED_APPS = SYS_APPS + EXT_APPS + MY_APPS
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -95,10 +84,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'today_shop',
         'PASSWORD': '123456',
-        'HOST': '192.168.227.131',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
         'CHARSET': 'utf8',
-        'USER': 'lijian',
+        'USER': 'root',
     }
 }
 
@@ -155,3 +144,45 @@ MEDIA_URL = '/media/'
 # 'http://127.0.0.1:8000/static/
 TEMP_STATIC_URL = 'http://127.0.0.1:8000' + STATIC_URL
 TEMP_MEDIA_URL = 'http://127.0.0.1:8000' + MEDIA_URL
+
+'''
+缓存配置
+'''
+CACHES = {
+    'default': {
+        # 指定缓存方式(redis),
+        # django-redis插件
+        'BACKEND': 'django_redis.cache.RedisCache',
+        # 指定缓存数据库的ip地址和端口
+        'LOCATION': 'redis://127.0.0.1:6379',
+        # 'TIMEOUT': '500',
+        'OPTION': {
+            #设置redis数据库密码
+            #'PASSWORD': ''
+            # 设置默认使用连接池连接redis
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100}
+        }
+    }
+}
+#全局配置
+REDIS_TIMEOUT = 7*24*60*60
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIA = 'default'
+
+
+
+################# email settings begin #################
+EMAIL_HOST = 'smtp.163.com'
+
+EMAIL_PORT = 465
+
+#此账号是测试账号，不要乱用
+EMAIL_HOST_USER = "13163318212@163.com"
+
+#邮箱的客户端授权密码
+EMAIL_HOST_PASSWORD = "woaini520"
+
+EMAIL_USE_SSL = True
+
+DJANGO_SERVICE = ('127.0.0.1',8000)
+################# email settings end #################
